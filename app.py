@@ -58,7 +58,6 @@ def content_based_recommendations(desired_attributes, n=10):
     desired_attributes_vector = tvec.transform([' '.join(filtered_attributes)])
 
     similarities = cosine_similarity(tmat, desired_attributes_vector)
-    st.write("Similarities:", similarities)  # Debug print for similarities
 
     # Get the indices of the wines with the highest similarities
     sorted_wine_indices = np.argsort(similarities[:, 0])[::-1]
