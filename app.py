@@ -50,6 +50,7 @@ tfidf_vocab = tvec.get_feature_names_out()
 def content_based_recommendations(desired_attributes, n=10):
     # Filter out attributes that are not in the vocabulary
     filtered_attributes = [attribute for attribute in desired_attributes if attribute in tfidf_vocab]
+    st.write("Filtered attributes:", filtered_attributes)
 
     # If all attributes are not in the vocabulary, return 0 as the similarity
     if not filtered_attributes:
@@ -57,6 +58,8 @@ def content_based_recommendations(desired_attributes, n=10):
 
     desired_attributes_vector = tvec.transform([' '.join(filtered_attributes)])
     similarities = cosine_similarity(tmat, desired_attributes_vector)
+
+    st.write("Similarities:", similarities)  # Debug print for similarities
 
     # Get the indices of the wines with the highest similarities
     sorted_wine_indices = np.argsort(similarities[:, 0])[::-1]
