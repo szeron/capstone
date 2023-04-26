@@ -14,12 +14,12 @@ def load_data(file_path, num_samples):
     return df
 
 file_path = './data/wine_reviews_clean.pkl'
-num_samples = 40000  # Reduce this value to load fewer samples
+num_samples = 30000  # Reduce this value to load fewer samples
 df = load_data(file_path, num_samples)
 df['wine_id'] = df.index
 
 # Instantiate the list of wine attributes
-attributes = ['fruit', 'tannin', 'cherry', 'ripe', 'aroma', 'rich', 'spice', 'red', 'oak', 'blackberry', 'plum', 
+attributes = ['fruit', 'tannin', 'cherry', 'rripe', 'aroma', 'rich', 'spice', 'red', 'oak', 'blackberry', 'plum', 
               'berry', 'fresh', 'dark', 'dry', 'apple', 'lemon', 'white', 'juicy', 'balanced', 'herb', 'firm', 'raspberry', 
               'pepper', 'black-cherry', 'bright', 'full-bodied', 'citrus', 'pear', 'light', 'vanilla', 'chocolate', 'crisp', 
               'mineral', 'black-fruit', 'peach', 'currant', 'dense', 'wood', 'soft', 'savory', 'complex', 'sweet', 
@@ -199,7 +199,7 @@ if st.button("Let's un-wine with the top picks!"):
         else:
             selected_attributes = user_attributes
 
-        # Run the hybrid recommender model
+        # Run the content-based recommender model
         model = content_based_recommendations(selected_attributes, 10)
 
         # Prepare the display for the top 10 recommendations
