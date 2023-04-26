@@ -21,8 +21,8 @@ df['wine_id'] = df.index
 # Instantiate the list of wine attributes
 attributes = ['fruit', 'tannin', 'cherry', 'ripe', 'aroma', 'rich', 'spice', 'red', 'oak', 'blackberry', 'plum', 
               'berry', 'fresh', 'dark', 'dry', 'apple', 'lemon', 'white', 'juicy', 'balanced', 'herb', 'firm', 'raspberry', 
-              'pepper', 'black cherry', 'bright', 'full-bodied', 'citrus', 'pear', 'light', 'vanilla', 'chocolate', 'crisp', 
-              'mineral', 'black fruit', 'peach', 'currant', 'dense', 'wood', 'soft', 'savory', 'complex', 'sweet', 
+              'pepper', 'black-cherry', 'bright', 'full-bodied', 'citrus', 'pear', 'light', 'vanilla', 'chocolate', 'crisp', 
+              'mineral', 'black-fruit', 'peach', 'currant', 'dense', 'wood', 'soft', 'savory', 'complex', 'sweet', 
               'spicy', 'smooth', 'licorice', 'orange', 'tobacco', 'strawberry', 'leather', 'fruity', 'lime', 'earthy', 
               'creamy', 'tart', 'lead', 'cassis', 'clove', 'tannic', 'grape', 'intense', 'earth', 'stone',  'tight', 
               'toast', 'powerful', 'textured', 'rose', 'cranberry', 'smoky', 'grapefruit', 'cinnamon', 
@@ -76,9 +76,6 @@ def content_based_recommendations(desired_attributes, n=10):
             top_wine_indices.append(idx)
             if len(top_wine_indices) >= n:
                 break
-
-    # Get the top n wines with the highest similarities that contain all filtered_attributes
-    # top_wine_indices = wine_indices_with_all_attributes[:n]
 
     # Create a dataframe with the recommended wines
     recommended_wines = df.iloc[top_wine_indices][['wine_id', 'title', 'variety', 'points', 'price', 'province', 'description', 'country']]
