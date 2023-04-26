@@ -14,7 +14,7 @@ def load_data(file_path, num_samples):
     return df
 
 file_path = './data/wine_reviews_clean.pkl'
-num_samples = 60000  # Reduce this value to load fewer samples
+num_samples = 50000  # Reduce this value to load fewer samples
 df = load_data(file_path, num_samples)
 df['wine_id'] = df.index
 
@@ -37,16 +37,13 @@ attributes.sort()
 df['tokens_str'] = df['tokens'].apply(lambda tokens: ' '.join(tokens))
 
 # Create a TfidfVectorizer
-tvec = TfidfVectorizer(min_df=5, max_df=0.95, max_features=150, ngram_range=(1, 2))
+tvec = TfidfVectorizer(min_df=5, max_df=0.95, max_features=10000, ngram_range=(1, 2), token_pattern=r"(?u)\b\w[\w-]+\b")
 
 # Fit the vectorizer to the 'tokens' column and transform the tokens into vectors
 tmat = tvec.fit_transform(df['tokens_str'])
 
 # Get the vocabulary
 tfidf_vocab = tvec.get_feature_names_out()
-
-# Create a dictionary to map wine_id to index
-# wine_id_to_index = df.reset_index().set_index('wine_id')['index'].to_dict()
 
 #---------------------------------------------------------------------------------------------------------
 
@@ -61,11 +58,34 @@ def content_based_recommendations(desired_attributes, n=10):
     desired_attributes_vector = tvec.transform([' '.join(filtered_attributes)])
     similarities = cosine_similarity(tmat, desired_attributes_vector)
 
-    # Get the indices of the top n wines with the highest similarities
-    top_wine_indices = np.argsort(similarities[:, 0])[-n:][::-1]
+    # Get the indices of the wines with the highest similarities
+    sorted_wine_indices = np.argsort(similarities[:, 0])[::-1]
+
+    # Filter the wines that contain all filtered_attributes in their descriptions
+    wine_indices_with_all_attributes = [idx for idx in sorted_wine_indices if all(attr in df.iloc[idx]['description'] for attr in filtered_attributes)]
+    
+    # Get the top n wines with the highest similarities that contain all filtered_attributes, without duplicates
+    seen_titles = set()
+    top_wine_indices = []
+    for idx in wine_indices_with_all_attributes:
+        title = df.iloc[idx]['title']
+        if title not in seen_titles:
+            seen_titles.add(title)
+            top_wine_indices.append(idx)
+            if len(top_wine_indices) >= n:
+                break
+
+    # Get the top n wines with the highest similarities that contain all filtered_attributes
+    # top_wine_indices = wine_indices_with_all_attributes[:n]
 
     # Create a dataframe with the recommended wines
     recommended_wines = df.iloc[top_wine_indices][['wine_id', 'title', 'variety', 'points', 'price', 'province', 'description', 'country']]
+
+    # Add the cosine similarity values to the dataframe
+    recommended_wines['cosine_similarity'] = similarities[top_wine_indices, 0]
+
+    # Sort the dataframe by cosine similarity in descending order
+    recommended_wines = recommended_wines.sort_values(by='cosine_similarity', ascending=False)
 
     return recommended_wines
 
