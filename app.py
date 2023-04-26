@@ -14,7 +14,7 @@ def load_data(file_path, num_samples):
     return df
 
 file_path = './data/wine_reviews_clean.pkl'
-num_samples = 50000  # Reduce this value to load fewer samples
+num_samples = 40000  # Reduce this value to load fewer samples
 df = load_data(file_path, num_samples)
 df['wine_id'] = df.index
 
@@ -24,7 +24,7 @@ attributes = ['fruit', 'tannin', 'cherry', 'ripe', 'aroma', 'rich', 'spice', 're
               'pepper', 'black-cherry', 'bright', 'full-bodied', 'citrus', 'pear', 'light', 'vanilla', 'chocolate', 'crisp', 
               'mineral', 'black-fruit', 'peach', 'currant', 'dense', 'wood', 'soft', 'savory', 'complex', 'sweet', 
               'spicy', 'smooth', 'licorice', 'orange', 'tobacco', 'strawberry', 'leather', 'fruity', 'lime', 'earthy', 
-              'creamy', 'tart', 'lead', 'cassis', 'clove', 'tannic', 'grape', 'intense', 'earth', 'stone',  'tight', 
+              'creamy', 'tart', 'lead', 'cassis', 'clove', 'tannic', 'grape', 'intense', 'stone',  'tight', 
               'toast', 'powerful', 'textured', 'rose', 'cranberry', 'smoky', 'grapefruit', 'cinnamon', 
               'blueberry', 'black-currant', 'coffee', 'cola', 'violet', 'floral', 'anise', 'tangy', 'bold', 'baked', 
               'cedar', 'herbal', 'lush', 'peel', 'layered', 'black-pepper', 'red-cherry', 'apricot', 'honey', 'black-plum', 
@@ -37,7 +37,7 @@ attributes.sort()
 df['tokens_str'] = df['tokens'].apply(lambda tokens: ' '.join(tokens))
 
 # Create a TfidfVectorizer
-tvec = TfidfVectorizer(min_df=5, max_df=0.95, max_features=10000, ngram_range=(1, 2), token_pattern=r"(?u)\b\w[\w-]+\b")
+tvec = TfidfVectorizer(min_df=5, max_df=0.95, max_features=5000, ngram_range=(1, 2), token_pattern=r"(?u)\b\w[\w-]+\b")
 
 # Fit the vectorizer to the 'tokens' column and transform the tokens into vectors
 tmat = tvec.fit_transform(df['tokens_str'])
