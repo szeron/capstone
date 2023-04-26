@@ -14,7 +14,7 @@ def load_data(file_path, num_samples):
     return df
 
 file_path = './data/wine_reviews_clean.pkl'
-num_samples = 30000  # Reduce this value to load fewer samples
+num_samples = 60000  # Reduce this value to load fewer samples
 df = load_data(file_path, num_samples)
 df['wine_id'] = df.index
 
