@@ -21,8 +21,8 @@ df['wine_id'] = df.index
 # Instantiate the list of wine attributes
 attributes = ['fruit', 'tannin', 'cherry', 'ripe', 'aroma', 'rich', 'spice', 'red', 'oak', 'blackberry', 'plum', 
               'berry', 'fresh', 'dark', 'dry', 'apple', 'lemon', 'white', 'juicy', 'balanced', 'herb', 'firm', 'raspberry', 
-              'pepper', 'black-cherry', 'bright', 'full-bodied', 'citrus', 'pear', 'light', 'vanilla', 'chocolate', 'crisp', 
-              'mineral', 'black-fruit', 'peach', 'currant', 'dense', 'wood', 'soft', 'savory', 'complex', 'sweet', 
+              'pepper', 'black cherry', 'bright', 'full-bodied', 'citrus', 'pear', 'light', 'vanilla', 'chocolate', 'crisp', 
+              'mineral', 'black fruit', 'peach', 'currant', 'dense', 'wood', 'soft', 'savory', 'complex', 'sweet', 
               'spicy', 'smooth', 'licorice', 'orange', 'tobacco', 'strawberry', 'leather', 'fruity', 'lime', 'earthy', 
               'creamy', 'tart', 'lead', 'cassis', 'clove', 'tannic', 'grape', 'intense', 'earth', 'stone',  'tight', 
               'toast', 'powerful', 'textured', 'rose', 'cranberry', 'smoky', 'grapefruit', 'cinnamon', 
@@ -50,15 +50,14 @@ tfidf_vocab = tvec.get_feature_names_out()
 def content_based_recommendations(desired_attributes, n=10):
     # Filter out attributes that are not in the vocabulary
     filtered_attributes = [attribute for attribute in desired_attributes if attribute in tfidf_vocab]
-    st.write("Filtered attributes:", filtered_attributes)
 
     # If all attributes are not in the vocabulary, return 0 as the similarity
     if not filtered_attributes:
         return pd.DataFrame()
 
     desired_attributes_vector = tvec.transform([' '.join(filtered_attributes)])
-    similarities = cosine_similarity(tmat, desired_attributes_vector)
 
+    similarities = cosine_similarity(tmat, desired_attributes_vector)
     st.write("Similarities:", similarities)  # Debug print for similarities
 
     # Get the indices of the wines with the highest similarities
