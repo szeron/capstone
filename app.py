@@ -230,7 +230,10 @@ if st.button("Let's un-wine with the top picks!"):
         """,
         unsafe_allow_html=True
         )
-        st.write(model_final.style.format({"Combined Rating": "{:.2f}"}).set_table_styles([{"selector": "th:first-child", "props": [("display", "none")]}]).set_properties(**{'border-collapse': 'collapse'}).set_properties(**{'border': '0px'}).set_properties(**{'border-spacing': '0px'}).set_table_styles([{'selector': 'td', 'props': [('border', '0px solid white')]}]))
+        st.write(model_final.style.format({"Combined Rating": "{:.2f}"}).set_properties(**{'border-collapse': 'collapse'}).set_properties(**{'border': '0px'}).set_properties(**{'border-spacing': '0px'}).set_table_styles([{'selector': 'td', 'props': [('border', '0px solid white')]}]))
+        model_final = model_final.reset_index(drop=True)
+        model_final.index.name = None
+        st.dataframe(model_final)
         st.write('</div>', unsafe_allow_html=True)
 
         if not model.empty:
