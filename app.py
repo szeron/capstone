@@ -230,8 +230,7 @@ if st.button("Let's un-wine with the top picks!"):
         """,
         unsafe_allow_html=True
         )
-        model_final.set_index(pd.Series(range(1, len(model_final) + 1)), inplace=True)
-        st.write(model_final.style.format({"Combined Rating": "{:.2f}"}))
+        st.write(model_final.style.format({"Combined Rating": "{:.2f}"}).hide_index().set_table_styles([{"selector": "th", "props": [("display", "none")]}]))
         st.write('</div>', unsafe_allow_html=True)
 
         if not model.empty:
