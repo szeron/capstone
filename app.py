@@ -230,7 +230,7 @@ if st.button("Let's un-wine with the top picks!"):
         """,
         unsafe_allow_html=True
         )
-        st.write(model_final.style.format({"Combined Rating": "{:.2f}"}).hide_columns(model_final.columns[0]))
+        st.write(model_final.style.format({"Combined Rating": "{:.2f}"}).hide_index())
         st.write('</div>', unsafe_allow_html=True)
 
         if not model.empty:
