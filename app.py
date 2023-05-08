@@ -231,7 +231,7 @@ if st.button("Let's un-wine with the top picks!"):
         unsafe_allow_html=True
         )
         model_final.index.name = None
-        st.write(model_final.style.format({"Combined Rating": "{:.2f}"}))
+        st.dataframe(model_final.style.format({"Combined Rating": "{:.2f}"}), index=False)
         st.write('</div>', unsafe_allow_html=True)
 
         if not model.empty:
