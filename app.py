@@ -7,7 +7,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 
 st.set_page_config(layout='wide')
 
-@st.cache
+@st.cache_data
 def load_data(file_path, num_samples):
     df = pd.read_pickle(file_path)
     df = df.sample(num_samples, random_state=42)  # Sample a smaller dataset
@@ -230,7 +230,8 @@ if st.button("Let's un-wine with the top picks!"):
         """,
         unsafe_allow_html=True
         )
-        st.write(model_final.style.format({"Combined Rating": "{:.2f}"}).hide_index())
+        model_final.set_index(pd.Series(range(1, len(model_final) + 1)), inplace=True)
+        st.write(model_final.style.format({"Combined Rating": "{:.2f}"}))
         st.write('</div>', unsafe_allow_html=True)
 
         if not model.empty:
