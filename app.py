@@ -7,7 +7,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 
 st.set_page_config(layout='wide')
 
-@st.cache_data
+@st.cache
 def load_data(file_path, num_samples):
     df = pd.read_pickle(file_path)
     df = df.sample(num_samples, random_state=42)  # Sample a smaller dataset
